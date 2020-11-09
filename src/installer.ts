@@ -4,56 +4,69 @@ import fs from 'fs'
 import os from 'os'
 import path from 'path'
 import { Logger } from 'winston'
-
 import LoggerFactory from './LoggerFactory'
 
-export class UnsupportedOSError extends Error {
-  constructor(message: string) {
-    super(message);
-  }
-}
 
-export class Installer {
+// eslint-disable-next-line no-unused-vars
+type AddPathType = (inputPath: string) => void
+// eslint-disable-next-line no-unused-vars
+type CacheDirType = (_1: string, _2: string, _3: string, _4?: string)
+  => Promise<string>
+// eslint-disable-next-line no-unused-vars
+type DownloadToolType = (url: string, dest?: string, auth?: string)
+  => Promise<string>
+
+export default class Installer {
+  EXEC_FILE: string = '{PROJECT_EXEC}'
+
   version: string
   logger: Logger
-  EXEC_FILE: string
+  addPath: AddPathType
+  cacheDir: CacheDirType
+  downloadTool: DownloadToolType
 
-  constructor(version: string) {
-    this.version = version;
-    this.logger = LoggerFactory.create('Installer');
-
-    this.EXEC_FILE = '{PROJECT_EXEC}';
+  constructor(
+    version: string,
+    addPath: AddPathType = core?.addPath,
+    cacheDir: CacheDirType = tc?.cacheDir,
+    downloadTool: DownloadToolType = tc?.downloadTool) {
+    this.version = version
+    this.logger = LoggerFactory.create('Installer')
+    this.addPath = addPath
+    this.cacheDir = cacheDir
+    this.downloadTool = downloadTool
   }
 
   async install(): Promise<void> {
-    this.logger.info(`Downloading {PROJECT_TITLE} ${this.version}...`);
-    const oldPath = await tc.downloadTool(this.getUrl());
-    this.logger.info(`Downloaded to ${oldPath}.`);
-    const index = oldPath.lastIndexOf(path.sep);    
-    const folderPath = oldPath.substring(0, index);
-    const newPath = path.join(folderPath, this.EXEC_FILE);
-    fs.renameSync(oldPath, newPath);
-    this.logger.info(`Renamed to ${newPath}.`);
-    fs.chmodSync(newPath, '777');
-    this.logger.info(`Access permissions changed to 777.`);
-    
-    const cachedPath = await tc.cacheDir(folderPath, this.EXEC_FILE, this.version);
-    this.logger.info(`Cached dir is ${cachedPath}`);
-    core.addPath(cachedPath);
+    this.logger.info(`Downloading {PROJECT_TITLE} ${this.version}...`)
+    const oldPath = await this.downloadTool(this.getUrl())
+    this.logger.info(`Downloaded to ${oldPath}.`)
+    const index = oldPath.lastIndexOf(path.sep)
+    const folderPath = oldPath.substring(0, index)
+    const newPath = path.join(folderPath, this.EXEC_FILE)
+    fs.renameSync(oldPath, newPath)
+    this.logger.info(`Renamed to ${newPath}.`)
+    fs.chmodSync(newPath, '777')
+    this.logger.info('Access permissions changed to 777.')
+
+    const cachedPath = await this.cacheDir(
+      folderPath, this.EXEC_FILE, this.version)
+    this.logger.info(`Cached dir is ${cachedPath}`)
+    this.addPath(cachedPath)
   }
 
   getUrl(): string {
-    let suffix: string;
+    let suffix: string
     switch (os.type()) {
-      case 'Darwin':
-        suffix = 'osx';
-        break;
-      case 'Linux':
-        suffix = 'linux';
-        break;
-      default:
-        throw new UnsupportedOSError('Windows is not supported.');
+    case 'Darwin':
+      suffix = 'mac'
+      break
+    case 'Linux':
+      suffix = 'linux'
+      break
+    default:
+      suffix = 'windows'
     }
-    return `{PROJECT_URL}/${this.version}/{PROJECT_EXEC}-${this.version}-${suffix}`;
+    return `{PROJECT_URL}/releases/${this.version}/${suffix}.zip`
   }
 }

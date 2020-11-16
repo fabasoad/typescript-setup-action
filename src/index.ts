@@ -1,17 +1,21 @@
-import core, { InputOptions } from '@actions/core';
+import { error, getInput } from '@actions/core';
 import Installer from './Installer';
 
-export interface InputProvider {
+export interface IInstallerFactory {
   // eslint-disable-next-line no-unused-vars
-  getInput(name: string, options?: InputOptions): string
+  get(v: string): IInstaller
 }
 
 export const run = async (
-  // eslint-disable-next-line no-unused-vars
-  installerFactory: (version: string) => Installer,
-  inputProvider: InputProvider) => {
-  const installer = installerFactory(inputProvider.getInput('version'));
-  await installer.install();
+  factory: IInstallerFactory = { get: (v: string) => new Installer(v) },
+  gi: typeof getInput = getInput,
+  err: typeof error = error) => {
+  const installer = factory.get(gi('version'));
+  try {
+    await installer.install();
+  } catch (e) {
+    err((<Error>e).message)
+  }
 }
 
-run((version: string) => new Installer(version), core)
+run()

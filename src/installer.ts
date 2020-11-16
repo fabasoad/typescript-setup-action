@@ -1,72 +1,35 @@
-import core from '@actions/core'
-import tc from '@actions/tool-cache'
-import fs from 'fs'
-import os from 'os'
-import path from 'path'
-import { Logger } from 'winston'
-import LoggerFactory from './LoggerFactory'
+import Cache from './Cache'
+import Downloader from './Downloader'
+import ExecutableFileFinder from './ExecutableFileFinder'
+import Unzipper from './Unzipper'
+import UrlProvider from './UrlProvider'
 
-
-// eslint-disable-next-line no-unused-vars
-type AddPathType = (inputPath: string) => void
-// eslint-disable-next-line no-unused-vars
-type CacheDirType = (_1: string, _2: string, _3: string, _4?: string)
-  => Promise<string>
-// eslint-disable-next-line no-unused-vars
-type DownloadToolType = (url: string, dest?: string, auth?: string)
-  => Promise<string>
-
-export default class Installer {
-  EXEC_FILE: string = '{PROJECT_EXEC}'
-
-  version: string
-  logger: Logger
-  addPath: AddPathType
-  cacheDir: CacheDirType
-  downloadTool: DownloadToolType
+export default class Installer implements IInstaller {
+  private _urlProvider: IUrlProvider
+  private _downloader: IDownloader
+  private _unzipper: IUnzipper
+  private _fileFinder: IExecutableFileFinder
+  private _cache: ICache
 
   constructor(
     version: string,
-    addPath: AddPathType = core?.addPath,
-    cacheDir: CacheDirType = tc?.cacheDir,
-    downloadTool: DownloadToolType = tc?.downloadTool) {
-    this.version = version
-    this.logger = LoggerFactory.create('Installer')
-    this.addPath = addPath
-    this.cacheDir = cacheDir
-    this.downloadTool = downloadTool
+    urlProvider: IUrlProvider = new UrlProvider(version),
+    downloader: IDownloader = new Downloader(),
+    unzipper: IUnzipper = new Unzipper(),
+    fileFinder: IExecutableFileFinder = new ExecutableFileFinder(version),
+    cache: ICache = new Cache(version)) {
+    this._urlProvider = urlProvider
+    this._downloader = downloader
+    this._unzipper = unzipper
+    this._fileFinder = fileFinder
+    this._cache = cache
   }
 
-  async install(): Promise<void> {
-    this.logger.info(`Downloading {PROJECT_TITLE} ${this.version}...`)
-    const oldPath = await this.downloadTool(this.getUrl())
-    this.logger.info(`Downloaded to ${oldPath}.`)
-    const index = oldPath.lastIndexOf(path.sep)
-    const folderPath = oldPath.substring(0, index)
-    const newPath = path.join(folderPath, this.EXEC_FILE)
-    fs.renameSync(oldPath, newPath)
-    this.logger.info(`Renamed to ${newPath}.`)
-    fs.chmodSync(newPath, '777')
-    this.logger.info('Access permissions changed to 777.')
-
-    const cachedPath = await this.cacheDir(
-      folderPath, this.EXEC_FILE, this.version)
-    this.logger.info(`Cached dir is ${cachedPath}`)
-    this.addPath(cachedPath)
-  }
-
-  getUrl(): string {
-    let suffix: string
-    switch (os.type()) {
-    case 'Darwin':
-      suffix = 'mac'
-      break
-    case 'Linux':
-      suffix = 'linux'
-      break
-    default:
-      suffix = 'windows'
-    }
-    return `{PROJECT_URL}/releases/${this.version}/${suffix}.zip`
+  public async install(): Promise<void> {
+    const url: string = this._urlProvider.getUrl()
+    const zipPath: string = await this._downloader.download(url)
+    const folderPath: string = await this._unzipper.unzip(zipPath)
+    const execFilePath: string = this._fileFinder.find(folderPath)
+    this._cache.cache(execFilePath)
   }
 }

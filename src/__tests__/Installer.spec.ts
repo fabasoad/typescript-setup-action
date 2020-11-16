@@ -1,86 +1,33 @@
-import { assert } from 'chai'
-import fs from 'fs'
-import itParam from 'mocha-param'
-import os from 'os'
-import path from 'path'
-import { restore, SinonStub, stub } from 'sinon'
+/* eslint-disable no-unused-vars */
 import Installer from '../Installer'
 
-interface FixtureItem {
-  type: string,
-  suffix: string
-}
-
-const fixture: Array<FixtureItem> = [
-  { type: 'Darwin', suffix: 'mac' },
-  { type: 'Linux', suffix: 'linux' },
-  { type: 'Windows', suffix: 'windows' }
-]
-
-describe('Test Installer class', () => {
-  let addPathMocked: jest.Mock<void>
-  let osTypeStub: SinonStub<[], string>
-  let fsChmodSyncStub: SinonStub<[path: fs.PathLike, mode: fs.Mode], void>
-  let fsRenameSyncStub:
-    SinonStub<[oldPath: fs.PathLike, newPath: fs.PathLike], void>
-  let cacheDirMocked: jest.Mock<Promise<string>>
-  let downloadToolMocked: jest.Mock<Promise<string>>
-
-  const buildUrl = (version: string, suffix: string): string =>
-    `{PROJECT_URL}/releases/${version}/${suffix}.zip`
-
-  beforeEach(() => {
-    addPathMocked = jest.fn()
-    osTypeStub = stub(os, 'type')
-    fsChmodSyncStub = stub(fs, 'chmodSync')
-    fsRenameSyncStub = stub(fs, 'renameSync')
-    cacheDirMocked = jest.fn()
-    downloadToolMocked = jest.fn()
+describe('Installer', () => {
+  it('should install successfully', async () => {
+    const version: string = '5zs1kbe5'
+    const url: string = '629mkl7f'
+    const zipPath: string = 'hw3a7g60'
+    const folderPath: string = 'uk5sf33x'
+    const execFilePath: string = 'x1vz234z'
+    const getUrlMock = jest.fn(() => url)
+    const downloadMock = jest.fn((u: string) => Promise.resolve(zipPath))
+    const unzipMock = jest.fn((z: string) => Promise.resolve(folderPath))
+    const findMock = jest.fn((f: string) => execFilePath)
+    const cacheMock = jest.fn()
+    const installer: Installer = new Installer(
+      version,
+      { getUrl: getUrlMock },
+      { download: downloadMock },
+      { unzip: unzipMock },
+      { find: findMock },
+      { cache: cacheMock })
+    await installer.install()
+    expect(downloadMock.mock.calls.length).toBe(1)
+    expect(downloadMock.mock.calls[0][0]).toBe(url)
+    expect(unzipMock.mock.calls.length).toBe(1)
+    expect(unzipMock.mock.calls[0][0]).toBe(zipPath)
+    expect(findMock.mock.calls.length).toBe(1)
+    expect(findMock.mock.calls[0][0]).toBe(folderPath)
+    expect(cacheMock.mock.calls.length).toBe(1)
+    expect(cacheMock.mock.calls[0][0]).toBe(execFilePath)
   })
-
-  itParam(
-    'should install correctly for ${value.type} OS',
-    fixture,
-    async (supportedOS: FixtureItem) => {
-      const folderPath: string = 'x2no1z63'
-      const oldPath: string = folderPath + path.sep + 'gke7d78i'
-      const newPath: string = folderPath + path.sep + 'mint'
-      const cachedPath: string = 'oze9ptz2'
-      const version: string = 'y50pgz2b'
-
-      osTypeStub.returns(supportedOS.type)
-      downloadToolMocked.mockImplementation(() => Promise.resolve(oldPath))
-      cacheDirMocked.mockImplementation(() => Promise.resolve(cachedPath))
-
-      const installer: Installer = new Installer(
-        version, addPathMocked, cacheDirMocked, downloadToolMocked)
-      await installer.install()
-
-      expect(downloadToolMocked.mock.calls.length).toBe(1)
-      expect(downloadToolMocked.mock.calls[0][0])
-        .toBe(buildUrl(version, supportedOS.suffix))
-      fsRenameSyncStub.calledOnceWith(oldPath, newPath)
-      fsChmodSyncStub.calledOnceWith(newPath, '777')
-      expect(cacheDirMocked.mock.calls.length).toBe(1)
-      expect(cacheDirMocked.mock.calls[0][0]).toBe(folderPath)
-      expect(cacheDirMocked.mock.calls[0][1]).toBe('{PROJECT_EXEC}')
-      expect(cacheDirMocked.mock.calls[0][2]).toBe(version)
-      expect(addPathMocked.mock.calls.length).toBe(1)
-      expect(addPathMocked.mock.calls[0][0]).toBe(cachedPath)
-    })
-
-  itParam(
-    'should build correct url for ${value.type} OS',
-    fixture,
-    (supportedOS: FixtureItem) => {
-      osTypeStub.returns(supportedOS.type)
-
-      const version: string = 'y50pgz2b'
-      const installer: Installer = new Installer(version)
-
-      const url: string = installer.getUrl()
-      assert.equal(buildUrl(version, supportedOS.suffix), url)
-    })
-
-  afterEach(() => restore())
 })

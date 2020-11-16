@@ -1,18 +1,14 @@
 ---
-  name: '{PROJECT_TITLE}'
-  author: Yevhen Fabizhevskyi
-  description: ''
-  branding:
-    icon: file-text
-    color: white
-  inputs:
-    test:
-      description: ''
-      required: true
-  outputs:
-    test:
-      description: ''
-  runs:
-    using: 'node12'
-    main: 'dist/index.js'
-  
+name: 'Setup {PROJECT_TITLE}'
+author: Yevhen Fabizhevskyi
+description: 'This action sets up a {PROJECT_TITLE}.'
+branding:
+  icon: terminal
+  color: gray-dark
+inputs:
+  version:
+    description: '{PROJECT_TITLE} version.'
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'

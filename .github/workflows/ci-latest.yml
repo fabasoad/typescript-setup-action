@@ -48,7 +48,7 @@ jobs:
       - name: Build
         run: yarn run build
       - name: Install {PROJECT_TITLE}
-        uses: fabasoad/{PROJECT_NAME}@${GITHUB_REF#refs/tags/}
+        uses: fabasoad/{PROJECT_NAME}@v1.0.0
         with:
           version: ${{ matrix.version }}
       - name: Run script (Linux, MacOS)

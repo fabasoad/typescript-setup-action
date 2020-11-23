@@ -18,11 +18,19 @@ jobs:
       - uses: actions/checkout@v2.3.4
         with:
           ref: ${{ github.ref }}
-      - name: Install node
-        uses: actions/setup-node@v2.1.1
+      - name: Get yarn cache directory path
+        id: yarn-cache-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache node_modules
+        id: yarn-cache
+        uses: actions/cache@v2.1.3
         with:
-          node-version: '14'
+          path: ${{ steps.yarn-cache-path.outputs.dir }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
       - name: Compile
+        if: ${{ steps.yarn-cache.outputs.cache-hit != 'true' }}
         run: yarn install
       - name: Lint
         run: yarn run lint
@@ -42,11 +50,19 @@ jobs:
       - uses: actions/checkout@v2.3.4
         with:
           ref: ${{ github.ref }}
-      - name: Install node
-        uses: actions/setup-node@v2.1.1
+      - name: Get yarn cache directory path
+        id: yarn-cache-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache node_modules
+        id: yarn-cache
+        uses: actions/cache@v2.1.3
         with:
-          node-version: '14'
+          path: ${{ steps.yarn-cache-path.outputs.dir }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
       - name: Compile
+        if: ${{ steps.yarn-cache.outputs.cache-hit != 'true' }}
         run: yarn install
       - name: Build
         run: yarn run build

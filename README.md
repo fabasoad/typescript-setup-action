@@ -1,46 +1,14 @@
-# Setup {PROJECT_TITLE}
+# Template for TypeScript GitHub Action
 
-![GitHub release](https://img.shields.io/github/v/release/fabasoad/{PROJECT_NAME}?include_prereleases) ![CI (latest)](https://github.com/fabasoad/{PROJECT_NAME}/workflows/CI%20(latest)/badge.svg) ![CI (main)](https://github.com/fabasoad/{PROJECT_NAME}/workflows/CI%20(main)/badge.svg) ![YAML Lint](https://github.com/fabasoad/{PROJECT_NAME}/workflows/YAML%20Lint/badge.svg) ![CodeQL](https://github.com/fabasoad/{PROJECT_NAME}/workflows/CodeQL/badge.svg) [![Total alerts](https://img.shields.io/lgtm/alerts/g/fabasoad/{PROJECT_NAME}.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/fabasoad/{PROJECT_NAME}/alerts/) [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/fabasoad/{PROJECT_NAME}.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/fabasoad/{PROJECT_NAME}/context:javascript) [![Maintainability](https://api.codeclimate.com/v1/badges/e259e98506d3691ab916/maintainability)](https://codeclimate.com/github/fabasoad/{PROJECT_NAME}/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/b49fa7426cb26ac028a9/test_coverage)](https://codeclimate.com/github/fabasoad/{PROJECT_NAME}/test_coverage) [![Known Vulnerabilities](https://snyk.io/test/github/fabasoad/{PROJECT_NAME}/badge.svg?targetFile=package.json)](https://snyk.io/test/github/fabasoad/{PROJECT_NAME}?targetFile=package.json)
+![GitHub release](https://img.shields.io/github/v/release/fabasoad/typescript-setup-action?include_prereleases) ![Lint](https://github.com/fabasoad/typescript-setup-action/workflows/Lint/badge.svg)
 
-This action sets up a [{PROJECT_TITLE}]({PROJECT_URL}).
+Are you going to create a new GitHub action and don't know how to start? This template project is exactly for you! All what you need to do is:
 
-## Inputs
+- [Create a new repository from this template project](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template).
+- Follow the [instructions](https://github.com/fabasoad/typescript-setup-action/wiki/How-to-use).
+- Done :sunglasses:
 
-| Name    | Required | Description                                                     | Default | Possible values |
-|---------|----------|-----------------------------------------------------------------|---------|-----------------|
-| version | Yes      | {PROJECT_TITLE} version that can be found [here]({PROJECT_URL}) |         | &lt;String&gt;  |
+## Wiki
 
-## Example usage
-
-Let's try to run `{PROJECT_SCRIPT_FILE}` file with the following content:
-
-```java
-System.print("Hello World!")
-```
-
-### Workflow configuration
-
-```yaml
-name: Setup {PROJECT_TITLE}
-
-on: push
-
-jobs:
-  setup:
-    name: Setup
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@main
-      - uses: fabasoad/{PROJECT_NAME}@main
-        with:
-          version: 0.3.0
-      - name: Run script
-        run: {PROJECT_CLI} ./{PROJECT_SCRIPT_FILE}
-```
-
-### Result
-
-```shell
-Run {PROJECT_CLI} ./{PROJECT_SCRIPT_FILE}
-Hello World!
-```
+- [How to use](https://github.com/fabasoad/typescript-setup-action/wiki/How-to-use)
+- [What you will have out of the box](https://github.com/fabasoad/typescript-setup-action/wiki/What-you-will-have-out-of-the-box)

@@ -6,9 +6,16 @@
     "typescript.suggestionActions.enabled": true
   },
   "cSpell.words": [
-    "consts",
-    "unzipper",
-    "vercel"
+    "Autobuild",
+    "UNSECURE",
+    "codeql",
+    "ibiqlik",
+    "markdownlint",
+    "nosborn",
+    "semver",
+    "simbo",
+    "vercel",
+    "yamllint"
   ],
   "editor.rulers": [ 80 ]
 }

@@ -23,6 +23,15 @@ default:
 	read -p "📊 CodeClimate test coverage badge (leave empty if you do not have it): " cc_test_coverage_badge; \
 	if [[ -z "$$cc_test_coverage_badge" ]] ; then cc_test_coverage_badge=''; else cc_test_coverage_badge="$$cc_test_coverage_badge "; fi; \
 	export CC_TESTS_COVERAGE_BADGE=$$cc_test_coverage_badge; \
+	read -p "🔧 Name of a CLI that you want to setup using this GitHub Action, e.g. wren: " cli_name; \
+	[ -z "$$cli_name" ] && echo '❌ CLI name cannot be empty.' && exit 1; \
+	export CLI_NAME=$$cli_name; \
+	read -p "🗄 File extension that this GitHub Action will download to install, e.g. zip (zip): " cli_extension; \
+	[ -z "$$cli_extension" ] && cli_extension='zip'; \
+	export CLI_EXTENSION=$$cli_extension; \
+	read -p "🌐 First part of URL that will be used to download CLI tool, e.g. if url to download CLI tool looks like https://github.com/wren-lang/wren-cli/releases/download/0.3.0/wren_cli-linux-0.3.0.zip then you should enter https://github.com/wren-lang/wren-cli/releases/download: " cli_url; \
+	[ -z "$$cli_url" ] && echo '❌ CLI URL cannot be empty.' && exit 1; \
+	export CLI_URL=$$cli_url; \
 	envsubst < README.md.template > README.md; \
 	rm -f README.md.template; \
 	envsubst < action.yml.template > action.yml; \
@@ -49,7 +58,9 @@ default:
 	envsubst < .husky.template/pre-commit.template > .husky.template/pre-commit; \
 	rm -f .husky.template/pre-commit.template; \
 	envsubst < .husky.template/pre-push.template > .husky.template/pre-push; \
-	rm -f .husky.template/pre-push.template
+	rm -f .husky.template/pre-push.template; \
+	envsubst < src/consts.ts.template > src/consts.ts; \
+	rm -f src/consts.ts.template
 	@rm -rf .github
 	@mv .github.template .github
 	@mv .husky.template .husky

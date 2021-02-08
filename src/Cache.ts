@@ -13,7 +13,7 @@ export default class Cache implements ICache {
 
   constructor(
     version: string,
-    provider: ICliExeNameProvider = new CliExeNameProvider()) {
+    provider: ICliExeNameProvider = new CliExeNameProvider(version)) {
     this.version = version
     this.provider = provider
     this.log = LoggerFactory.create('Cache')

@@ -5,6 +5,11 @@ description: '${REPO_TITLE} GitHub Action'
 branding:
   icon: terminal
   color: gray-dark
+inputs:
+  version:
+    description: '${CLI_NAME} version.'
+    required: false
+    default: ${LATEST_VERSION}
 runs:
   using: 'node12'
   main: 'dist/index.js'

@@ -2,6 +2,7 @@ import * as tc from '@actions/tool-cache'
 import fs from 'fs'
 import { restore, SinonStub, stub } from 'sinon'
 import Downloader from '../Downloader'
+import { CLI_EXTENSION } from '../consts'
 
 describe('Downloader', () => {
   let fsRenameSyncStub:
@@ -15,7 +16,7 @@ describe('Downloader', () => {
 
   it('should download successfully', async () => {
     const zipPathOld: string = 'yw86z9qw'
-    const zipPathNew: string = zipPathOld + '.zip'
+    const zipPathNew: string = zipPathOld + '.' + CLI_EXTENSION
     const url: string = '9r1y2ryp'
     downloadToolStub.returns(Promise.resolve(zipPathOld))
     const d: Downloader = new Downloader()

@@ -1,4 +1,4 @@
-import { error, getInput } from '@actions/core';
+import { getInput, setFailed } from '@actions/core';
 import Installer from './Installer';
 
 export interface IInstallerFactory {
@@ -9,12 +9,12 @@ export interface IInstallerFactory {
 export const run = async (
   factory: IInstallerFactory = { get: (v: string) => new Installer(v) },
   gi: typeof getInput = getInput,
-  err: typeof error = error) => {
+  sf: typeof setFailed = setFailed) => {
   const installer = factory.get(gi('version'));
   try {
     await installer.install();
   } catch (e) {
-    err((<Error>e).message)
+    sf((<Error>e).message)
   }
 }
 

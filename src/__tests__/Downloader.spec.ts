@@ -1,29 +1,27 @@
-import * as tc from '@actions/tool-cache'
-import fs from 'fs'
-import { restore, SinonStub, stub } from 'sinon'
-import Downloader from '../Downloader'
+import { downloadTool } from '@actions/tool-cache'
+import { renameSync } from 'fs'
 import { CLI_EXTENSION } from '../consts'
+import Downloader from '../Downloader'
+
+jest.mock('@actions/tool-cache', () => ({ downloadTool: jest.fn() }))
+jest.mock('fs', () => ({ renameSync: jest.fn() }))
 
 describe('Downloader', () => {
-  let fsRenameSyncStub:
-    SinonStub<[oldPath: fs.PathLike, newPath: fs.PathLike], void>
-  let downloadToolStub: SinonStub
-
-  beforeEach(() => {
-    fsRenameSyncStub = stub(fs, 'renameSync')
-    downloadToolStub = stub(tc, 'downloadTool')
-  })
-
   it('should download successfully', async () => {
     const zipPathOld: string = 'yw86z9qw'
     const zipPathNew: string = zipPathOld + '.' + CLI_EXTENSION
-    const url: string = '9r1y2ryp'
-    downloadToolStub.returns(Promise.resolve(zipPathOld))
+    const url: string = '9r1y2ryp';
+    (downloadTool as jest.Mock)
+      .mockImplementation(() => Promise.resolve(zipPathOld))
     const d: Downloader = new Downloader()
     const actual: string = await d.download(url)
-    expect(fsRenameSyncStub.withArgs(zipPathOld, zipPathNew).callCount).toBe(1)
+    expect((renameSync as jest.Mock).mock.calls.length).toBe(1)
+    expect(renameSync).toHaveBeenCalledWith(zipPathOld, zipPathNew)
     expect(actual).toBe(zipPathNew)
   })
 
-  afterEach(() => restore())
+  afterEach(() => {
+    (downloadTool as jest.Mock).mockClear();
+    (renameSync as jest.Mock).mockClear()
+  })
 })

@@ -32,6 +32,9 @@ default:
 	read -p "🌐 First part of URL that will be used to download CLI tool, e.g. if url to download CLI tool looks like https://github.com/wren-lang/wren-cli/releases/download/0.3.0/wren_cli-linux-0.3.0.zip then you should enter https://github.com/wren-lang/wren-cli/releases/download: " cli_url; \
 	[ -z "$$cli_url" ] && echo '❌ CLI URL cannot be empty.' && exit 1; \
 	export CLI_URL=$$cli_url; \
+	read -p "🔢 Latest available version of $$cli_name tool: " latest_version; \
+	[ -z "$$latest_version" ] && echo '❌ Version cannot be empty.' && exit 1; \
+	export LATEST_VERSION=$$latest_version; \
 	envsubst < README.md.template > README.md; \
 	rm -f README.md.template; \
 	envsubst < action.yml.template > action.yml; \
@@ -51,8 +54,6 @@ default:
 	rm -f .github.template/ISSUE_TEMPLATE/feature_request.md.template; \
 	envsubst < .github.template/workflows/check-updates.yml.template > .github.template/workflows/check-updates.yml; \
 	rm -f .github.template/workflows/check-updates.yml.template; \
-	envsubst < .github.template/workflows/security-tests.yml.template > .github.template/workflows/security-tests.yml; \
-	rm -f .github.template/workflows/security-tests.yml.template; \
 	envsubst < .github.template/workflows/unit-tests.yml.template > .github.template/workflows/unit-tests.yml; \
 	rm -f .github.template/workflows/unit-tests.yml.template; \
 	envsubst < .husky.template/pre-commit.template > .husky.template/pre-commit; \

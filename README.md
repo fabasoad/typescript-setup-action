@@ -8,7 +8,7 @@ Are you going to create a new GitHub action that will setup some tool in a pipel
 - Follow the [instructions](https://github.com/fabasoad/typescript-setup-action/wiki/How-to-use).
 - Done :sunglasses:
 
-This template project is based on [fabasoad/typescript-action](https://github.com/fabasoad/typescript-action) template repository but with additional logic related to "setup" functionality. What does it mean actually? It means that you can configure GitHub Action that will setup some tool in a pipeline. Good examples are [fabasoad/setup-wren-action](https://github.com/fabasoad/setup-wren-action), [fabasoad/setup-kitten-action](https://github.com/fabasoad/setup-kitten-action), [fabasoad/setup-mint-action](https://github.com/fabasoad/setup-mint-action) and many others.
+This template project is based on [fabasoad/typescript-action](https://github.com/fabasoad/typescript-action) template repository but with additional logic related to "setup" functionality. What does it mean actually? It means that you can configure GitHub Action that will setup some tool in a pipeline. Good examples are [setup-wren-action](https://github.com/fabasoad/setup-wren-action), [setup-kitten-action](https://github.com/fabasoad/setup-kitten-action), [setup-mint-action](https://github.com/fabasoad/setup-mint-action) and many others that you can find [here](https://github.com/marketplace?type=actions&query=fabasoad+Setup).
 
 ## Wiki
 

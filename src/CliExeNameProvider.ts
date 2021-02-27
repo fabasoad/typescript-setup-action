@@ -1,5 +1,5 @@
 import os from 'os'
-import { CLI_NAME } from './consts'
+import { TOOL_NAME } from './consts'
 
 export default class CliExeNameProvider implements ICliExeNameProvider {
   private version: string
@@ -11,9 +11,9 @@ export default class CliExeNameProvider implements ICliExeNameProvider {
   getExeFileName(): string {
     switch (os.type()) {
     case 'Windows_NT':
-      return `${CLI_NAME}-${this.version}.exe`
+      return `${TOOL_NAME}-${this.version}.exe`
     default:
-      return CLI_NAME
+      return TOOL_NAME
     }
   }
 }

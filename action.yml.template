@@ -7,7 +7,7 @@ branding:
   color: gray-dark
 inputs:
   version:
-    description: '${CLI_NAME} version.'
+    description: '${TOOL_NAME} version.'
     required: false
     default: ${LATEST_VERSION}
 runs:

@@ -1,7 +1,7 @@
 import itParam from 'mocha-param'
 import { type } from 'os'
 import CliFileNameBuilder from '../CliFileNameBuilder'
-import { CLI_NAME } from '../consts'
+import { TOOL_NAME } from '../consts'
 
 jest.mock('os', () => ({ type: jest.fn() }))
 
@@ -27,7 +27,7 @@ describe('CliFileNameBuilder', () => {
     items, (item: IFixture) => {
       (type as jest.Mock).mockImplementation(() => item.os1)
       const b: CliFileNameBuilder = new CliFileNameBuilder(expectedVersion)
-      expect(b.build()).toBe(`${CLI_NAME}-${item.os2}-${expectedVersion}`)
+      expect(b.build()).toBe(`${TOOL_NAME}-${item.os2}-${expectedVersion}`)
     })
 
   afterEach(() => (type as jest.Mock).mockClear())

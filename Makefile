@@ -8,7 +8,7 @@ default:
 	export PM_LOCK_FILE=$$pm_lock_file; \
 	read -p "💡 Project title: " repo_title; \
 	export REPO_TITLE=$$repo_title; \
-	read -p "🧠 Project owner ($$(git config user.name)): " repo_owner; \
+	read -p "🧠 Repository owner ($$(git config user.name)): " repo_owner; \
 	[ -z "$$repo_owner" ] && repo_owner=$$(git config user.name); \
 	export REPO_OWNER=$$repo_owner; \
 	read -p "📝 Project owner's display name ($$(git config user.name)): " repo_owner_display_name; \
@@ -23,16 +23,16 @@ default:
 	read -p "📊 CodeClimate test coverage badge (leave empty if you do not have it): " cc_test_coverage_badge; \
 	if [[ -z "$$cc_test_coverage_badge" ]] ; then cc_test_coverage_badge=''; else cc_test_coverage_badge="$$cc_test_coverage_badge "; fi; \
 	export CC_TESTS_COVERAGE_BADGE=$$cc_test_coverage_badge; \
-	read -p "🔧 Name of a CLI that you want to setup using this GitHub Action, e.g. wren: " cli_name; \
-	[ -z "$$cli_name" ] && echo '❌ CLI name cannot be empty.' && exit 1; \
-	export CLI_NAME=$$cli_name; \
-	read -p "🗄 File extension that this GitHub Action will download to install, e.g. zip (zip): " cli_extension; \
+	read -p "🔧 Name of a tool that you want to setup using this GitHub Action: " tool_name; \
+	[ -z "$$tool_name" ] && echo '❌ CLI name cannot be empty.' && exit 1; \
+	export TOOL_NAME=$$tool_name; \
+	read -p "🗄 File extension that this GitHub Action will download to install (zip): " cli_extension; \
 	[ -z "$$cli_extension" ] && cli_extension='zip'; \
 	export CLI_EXTENSION=$$cli_extension; \
 	read -p "🌐 First part of URL that will be used to download CLI tool, e.g. if url to download CLI tool looks like https://github.com/wren-lang/wren-cli/releases/download/0.3.0/wren_cli-linux-0.3.0.zip then you should enter https://github.com/wren-lang/wren-cli/releases/download: " cli_url; \
 	[ -z "$$cli_url" ] && echo '❌ CLI URL cannot be empty.' && exit 1; \
 	export CLI_URL=$$cli_url; \
-	read -p "🔢 Latest available version of $$cli_name tool: " latest_version; \
+	read -p "🔢 Latest available version of $$tool_name tool: " latest_version; \
 	[ -z "$$latest_version" ] && echo '❌ Version cannot be empty.' && exit 1; \
 	export LATEST_VERSION=$$latest_version; \
 	envsubst < README.md.template > README.md; \

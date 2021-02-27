@@ -1,7 +1,7 @@
 import { sync } from 'glob'
 import itParam from 'mocha-param'
 import path from 'path'
-import { CLI_NAME } from '../consts'
+import { TOOL_NAME } from '../consts'
 import ExecutableFileFinder from '../ExecutableFileFinder'
 
 jest.mock('glob', () => ({ sync: jest.fn() }))
@@ -31,7 +31,7 @@ describe('ExecutableFileFinder', () => {
     const actual: string = finder.find(folderPath)
     expect((sync as jest.Mock).mock.calls.length).toBe(1)
     expect(sync).toHaveBeenCalledWith(
-      `${folderPath}${path.sep}**${path.sep}${CLI_NAME}*`)
+      `${folderPath}${path.sep}**${path.sep}${TOOL_NAME}*`)
     expect(actual).toBe(files[0])
   })
 
@@ -48,7 +48,7 @@ describe('ExecutableFileFinder', () => {
       expect((<Error>e).message).toContain(item.message)
       expect((sync as jest.Mock).mock.calls.length).toBe(1)
       expect(sync).toHaveBeenCalledWith(
-        `${folderPath}${path.sep}**${path.sep}${CLI_NAME}*`)
+        `${folderPath}${path.sep}**${path.sep}${TOOL_NAME}*`)
       return
     }
     fail()

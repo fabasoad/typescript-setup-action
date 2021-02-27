@@ -1,5 +1,5 @@
 import os from 'os'
-import { CLI_NAME } from './consts'
+import { TOOL_NAME } from './consts'
 
 export default class CliFileNameBuilder implements ICliFileNameBuilder {
   private version: string
@@ -20,6 +20,6 @@ export default class CliFileNameBuilder implements ICliFileNameBuilder {
   }
 
   build(): string {
-    return `${CLI_NAME}-${this.getOS()}-${this.version}`
+    return `${TOOL_NAME}-${this.getOS()}-${this.version}`
   }
 }

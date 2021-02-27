@@ -1,3 +1,4 @@
+import { CLI_EXTENSION, CLI_URL } from '../consts'
 import UrlProvider from '../UrlProvider'
 
 describe('UrlProvider', () => {
@@ -8,6 +9,6 @@ describe('UrlProvider', () => {
       build: (): string => fileName
     })
     const actual: string = provider.getUrl()
-    expect(actual).toBe('{PROJECT_URL}' + `/${version}/${fileName}.zip`)
+    expect(actual).toBe(`${CLI_URL}/${version}/${fileName}.${CLI_EXTENSION}`)
   })
 })

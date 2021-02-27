@@ -1,4 +1,5 @@
 import CliFileNameBuilder from './CliFileNameBuilder'
+import { CLI_EXTENSION, CLI_URL } from './consts'
 
 export default class UrlProvider implements IUrlProvider {
   private builder: ICliFileNameBuilder
@@ -12,6 +13,6 @@ export default class UrlProvider implements IUrlProvider {
   }
 
   getUrl(): string {
-    return '{PROJECT_URL}' + `${this.version}/${this.builder.build()}.zip`
+    return `${CLI_URL}/${this.version}/${this.builder.build()}.${CLI_EXTENSION}`
   }
 }

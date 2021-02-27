@@ -1,4 +1,4 @@
-import { error, getInput, InputOptions } from '@actions/core'
+import { getInput, InputOptions, setFailed } from '@actions/core'
 import { assert } from 'chai'
 import { run } from '../index'
 
@@ -13,11 +13,11 @@ class InstallerMock {
 }
 
 describe('Main runner', () => {
-  let errorMocked
+  let setFailedMocked
   let getInputMocked
 
   beforeEach(() => {
-    errorMocked = jest.fn((m: string) => assert.isNotNull(m))
+    setFailedMocked = jest.fn((m: string) => assert.isNotNull(m))
     getInputMocked = jest.fn((name: string, options?: InputOptions): string => {
       assert.isUndefined(options)
       assert.equal(name, 'version')
@@ -32,7 +32,7 @@ describe('Main runner', () => {
         assert.equal(version, TEST_VERSION)
         return installerMock
       }
-    }, getInputMocked as typeof getInput, errorMocked as typeof error)
+    }, getInputMocked as typeof getInput, setFailedMocked as typeof setFailed)
     expect(installerMock.calls).toBe(1)
   })
 
@@ -47,13 +47,13 @@ describe('Main runner', () => {
           }
         }
       }
-    }, getInputMocked as typeof getInput, errorMocked as typeof error)
-    expect(errorMocked.mock.calls.length).toBe(1)
-    expect(errorMocked.mock.calls[0][0]).toBe(expectedMessage)
+    }, getInputMocked as typeof getInput, setFailedMocked as typeof setFailed)
+    expect(setFailedMocked.mock.calls.length).toBe(1)
+    expect(setFailedMocked.mock.calls[0][0]).toBe(expectedMessage)
   })
 
   afterEach(() => {
-    errorMocked.mockReset();
+    setFailedMocked.mockReset();
     getInputMocked.mockReset();
   })
 })

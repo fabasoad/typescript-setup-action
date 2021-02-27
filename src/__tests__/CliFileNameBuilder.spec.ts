@@ -1,8 +1,9 @@
 import itParam from 'mocha-param'
-import os from 'os'
-import { restore, SinonStub, stub } from 'sinon'
+import { type } from 'os'
 import CliFileNameBuilder from '../CliFileNameBuilder'
 import { CLI_NAME } from '../consts'
+
+jest.mock('os', () => ({ type: jest.fn() }))
 
 interface IFixture {
   os1: string
@@ -22,18 +23,12 @@ describe('CliFileNameBuilder', () => {
     os2: 'linux'
   }]
 
-  let osTypeStub: SinonStub<[], string>
-
-  beforeEach(() => {
-    osTypeStub = stub(os, 'type')
-  })
-
   itParam('should build successfully (${value.os1})',
     items, (item: IFixture) => {
-      osTypeStub.returns(item.os1)
+      (type as jest.Mock).mockImplementation(() => item.os1)
       const b: CliFileNameBuilder = new CliFileNameBuilder(expectedVersion)
       expect(b.build()).toBe(`${CLI_NAME}-${item.os2}-${expectedVersion}`)
     })
 
-  afterEach(() => restore())
+  afterEach(() => (type as jest.Mock).mockClear())
 })

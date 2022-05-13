@@ -11,5 +11,5 @@ inputs:
     required: false
     default: ${LATEST_VERSION}
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'

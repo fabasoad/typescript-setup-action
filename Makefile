@@ -52,8 +52,6 @@ default:
 	rm -f .github.template/ISSUE_TEMPLATE/bug_report.md.template; \
 	envsubst < .github.template/ISSUE_TEMPLATE/feature_request.md.template > .github.template/ISSUE_TEMPLATE/feature_request.md; \
 	rm -f .github.template/ISSUE_TEMPLATE/feature_request.md.template; \
-	envsubst < .github.template/workflows/check-updates.yml.template > .github.template/workflows/check-updates.yml; \
-	rm -f .github.template/workflows/check-updates.yml.template; \
 	envsubst < .github.template/workflows/unit-tests.yml.template > .github.template/workflows/unit-tests.yml; \
 	rm -f .github.template/workflows/unit-tests.yml.template; \
 	envsubst < .husky.template/pre-commit.template > .husky.template/pre-commit; \

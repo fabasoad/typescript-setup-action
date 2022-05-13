@@ -17,10 +17,10 @@ jobs:
     timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.3.4
+      - uses: actions/checkout@v2
       - name: Cache node_modules
         id: cache
-        uses: actions/cache@v2.1.4
+        uses: actions/cache@v2
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/${PM_LOCK_FILE}') }}
@@ -35,7 +35,7 @@ jobs:
         run: ${PM_CLI} test
         if: github.ref != 'refs/heads/main'
       - name: Unit tests with coverage
-        uses: paambaati/codeclimate-action@v2.7.5
+        uses: paambaati/codeclimate-action@v3.0.0
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}

@@ -15,8 +15,8 @@ interface IDownloader {
   download(url: string): Promise<string>
 }
 
-interface IUnzipper {
-  unzip(zipPath: string): Promise<string>
+interface IUnarchiver {
+  unarchive(archivePath: string): Promise<string>
 }
 
 interface IExecutableFileFinder {

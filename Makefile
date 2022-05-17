@@ -26,9 +26,10 @@ default:
 	read -p "🔧 Name of a tool that you want to setup using this GitHub Action: " tool_name; \
 	[ -z "$$tool_name" ] && echo '❌ CLI name cannot be empty.' && exit 1; \
 	export TOOL_NAME=$$tool_name; \
-	read -p "🗄 File extension that this GitHub Action will download to install (zip): " cli_extension; \
+	read -p "🗄 File extension that this GitHub Action will download to install. Supported extensions: zip, tar, xar and 7z (zip): " cli_extension; \
 	[ -z "$$cli_extension" ] && cli_extension='zip'; \
 	export CLI_EXTENSION=$$cli_extension; \
+	export EXTRACT_METHOD="extract"${$$cli_extension^}; \
 	read -p "🌐 First part of URL that will be used to download CLI tool, e.g. if url to download CLI tool looks like https://github.com/wren-lang/wren-cli/releases/download/0.3.0/wren_cli-linux-0.3.0.zip then you should enter https://github.com/wren-lang/wren-cli/releases/download: " cli_url; \
 	[ -z "$$cli_url" ] && echo '❌ CLI URL cannot be empty.' && exit 1; \
 	export CLI_URL=$$cli_url; \
@@ -60,6 +61,8 @@ default:
 	rm -f .husky.template/pre-push.template; \
 	envsubst < src/consts.ts.template > src/consts.ts; \
 	rm -f src/consts.ts.template
+	envsubst < src/Unarchiver.ts.template > src/Unarchiver.ts; \
+	rm -f src/Unarchiver.ts.template
 	@rm -rf .github
 	@mv .github.template .github
 	@mv .husky.template .husky

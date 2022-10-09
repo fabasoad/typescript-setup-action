@@ -1,3 +1,5 @@
+.PHONY: build
+
 SHELL := /bin/bash
 
 default:
@@ -55,20 +57,16 @@ default:
 	rm -f .github.template/ISSUE_TEMPLATE/feature_request.md.template; \
 	envsubst < .github.template/workflows/unit-tests.yml.template > .github.template/workflows/unit-tests.yml; \
 	rm -f .github.template/workflows/unit-tests.yml.template; \
-	envsubst < .husky.template/pre-commit.template > .husky.template/pre-commit; \
-	rm -f .husky.template/pre-commit.template; \
-	envsubst < .husky.template/pre-push.template > .husky.template/pre-push; \
-	rm -f .husky.template/pre-push.template; \
 	envsubst < src/consts.ts.template > src/consts.ts; \
 	rm -f src/consts.ts.template
 	envsubst < src/Unarchiver.ts.template > src/Unarchiver.ts; \
 	rm -f src/Unarchiver.ts.template
 	@rm -rf .github
 	@mv .github.template .github
-	@mv .husky.template .husky
-	@chmod +x .husky/commit-msg
-	@chmod +x .husky/pre-commit
-	@chmod +x .husky/pre-push
-	@chmod +x .husky/prepare-commit-msg
+	@mv .pre-commit-config.yaml.template .pre-commit-config.yaml
 	@echo "🌟 Done"
 	@rm -f Makefile
+
+build:
+	pre-commit install --hook-type pre-commit
+	pre-commit install --hook-type pre-push

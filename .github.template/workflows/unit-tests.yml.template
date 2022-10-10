@@ -4,9 +4,9 @@ name: Unit Tests
 on:
   push:
     branches:
-      - main
-      - 'bugfix/**'
-      - 'feature/**'
+      - 'main'
+      - 'fix-*'
+      - 'feature-*'
 
 jobs:
   unit_tests:
@@ -14,18 +14,18 @@ jobs:
     timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Cache node_modules
         id: cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/${PM_LOCK_FILE}') }}
+          key: ${{ runner.os }}-${PM_CLI}-${{ hashFiles('**/${PM_LOCK_FILE}') }}
           restore-keys: |
             ${{ runner.os }}-${PM_CLI}-
       - name: Compile
         if: ${{ steps.cache.outputs.cache-hit != 'true' }}
-        run: ${PM_CLI} install
+        run: ${PM_CLI_INSTALL_SCRIPT}
       - name: Lint
         run: ${PM_CLI} run lint
       - name: Unit tests

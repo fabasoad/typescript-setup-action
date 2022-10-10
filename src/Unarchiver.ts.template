@@ -4,15 +4,15 @@ import { Logger } from 'winston'
 import LoggerFactory from './LoggerFactory'
 
 export default class Unarchiver implements IUnarchiver {
-  private readonly unarchive: typeof ${EXTRACT_METHOD}
+  private readonly run: typeof ${EXTRACT_METHOD}
   private readonly log: Logger = LoggerFactory.create(Unarchiver.name)
 
-  constructor(unarchive: typeof ${EXTRACT_METHOD} = ${EXTRACT_METHOD}) {
-    this.unarchive = unarchive
+  constructor(run: typeof ${EXTRACT_METHOD} = ${EXTRACT_METHOD}) {
+    this.run = run
   }
 
   async unarchive(filePath: string): Promise<string> {
-    const destPath: string = await this.unarchive(filePath, path.dirname(filePath))
+    const destPath: string = await this.run(filePath, path.dirname(filePath))
     this.log.info(`Unarchived ${filePath} to ${destPath}`)
     return destPath
   }

@@ -6,6 +6,8 @@ default:
 	@read -p "📦 Package manager that you're going to use. Can be "npm" or "yarn" (yarn): " pm_cli; \
 	if [[ -z "$$pm_cli" ]] ; then pm_cli="yarn"; else pm_cli="npm"; fi; \
 	export PM_CLI=$$pm_cli; \
+	if [[ "$$pm_cli" = "yarn" ]] ; then pm_cli_install_script="yarn install --ignore-scripts"; else pm_cli_install_script="npm install"; fi; \
+	export PM_CLI_INSTALL_SCRIPT=$$pm_cli_install_script; \
 	if [[ "$$pm_cli" = "yarn" ]] ; then pm_lock_file='yarn.lock'; else pm_lock_file="package-lock.json"; fi; \
 	export PM_LOCK_FILE=$$pm_lock_file; \
 	read -p "💡 Project title: " repo_title; \
@@ -31,7 +33,9 @@ default:
 	read -p "🗄 File extension that this GitHub Action will download to install. Supported extensions: zip, tar, xar and 7z (zip): " cli_extension; \
 	[ -z "$$cli_extension" ] && cli_extension='zip'; \
 	export CLI_EXTENSION=$$cli_extension; \
-	export EXTRACT_METHOD="extract"${$$cli_extension^}; \
+	ext1=`echo $$cli_extension|cut -c1|tr [a-z] [A-Z]`; \
+	ext2=`echo $$cli_extension|cut -c2-`; \
+	export EXTRACT_METHOD="extract$$ext1$$ext2"; \
 	read -p "🌐 First part of URL that will be used to download CLI tool, e.g. if url to download CLI tool looks like https://github.com/wren-lang/wren-cli/releases/download/0.3.0/wren_cli-linux-0.3.0.zip then you should enter https://github.com/wren-lang/wren-cli/releases/download: " cli_url; \
 	[ -z "$$cli_url" ] && echo '❌ CLI URL cannot be empty.' && exit 1; \
 	export CLI_URL=$$cli_url; \
@@ -58,7 +62,7 @@ default:
 	envsubst < .github.template/workflows/unit-tests.yml.template > .github.template/workflows/unit-tests.yml; \
 	rm -f .github.template/workflows/unit-tests.yml.template; \
 	envsubst < src/consts.ts.template > src/consts.ts; \
-	rm -f src/consts.ts.template
+	rm -f src/consts.ts.template; \
 	envsubst < src/Unarchiver.ts.template > src/Unarchiver.ts; \
 	rm -f src/Unarchiver.ts.template
 	@rm -rf .github

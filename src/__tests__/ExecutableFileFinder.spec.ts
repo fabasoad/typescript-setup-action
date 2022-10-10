@@ -24,7 +24,8 @@ describe('ExecutableFileFinder::find', () => {
   beforeEach(() => {
     (fs.readdirSync as jest.Mock).mockClear();
     (fs.statSync as jest.Mock).mockClear()
-    finder = new ExecutableFileFinder({
+    const version = '1clx8w43'
+    finder = new ExecutableFileFinder(version, {
       getExeFileName: () => TEST_EXE
     })
   })

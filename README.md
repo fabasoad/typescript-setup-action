@@ -1,6 +1,6 @@
 # Template for TypeScript Setup GitHub Action
 
-![GitHub release](https://img.shields.io/github/v/release/fabasoad/typescript-setup-action?include_prereleases) ![Lint](https://github.com/fabasoad/typescript-setup-action/workflows/Lint/badge.svg)
+![GitHub release](https://img.shields.io/github/v/release/fabasoad/typescript-setup-action?include_prereleases) [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/fabasoad/typescript-setup-action/main.svg)](https://results.pre-commit.ci/latest/github/fabasoad/typescript-setup-action/main)
 
 Are you going to create a new GitHub action that will setup some tool in a pipeline and don't know how to start? This template project is exactly for you! All what you need to do is:
 

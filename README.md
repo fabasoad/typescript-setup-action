@@ -1,14 +1,22 @@
 # Template for TypeScript Setup GitHub Action
 
-![GitHub release](https://img.shields.io/github/v/release/fabasoad/typescript-setup-action?include_prereleases) [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/fabasoad/typescript-setup-action/main.svg)](https://results.pre-commit.ci/latest/github/fabasoad/typescript-setup-action/main)
+![GitHub release](https://img.shields.io/github/v/release/fabasoad/typescript-setup-action?include_prereleases)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/fabasoad/typescript-setup-action/main.svg)](https://results.pre-commit.ci/latest/github/fabasoad/typescript-setup-action/main)
 
-Are you going to create a new GitHub action that will setup some tool in a pipeline and don't know how to start? This template project is exactly for you! All what you need to do is:
+Are you going to create a new GitHub action that will set up some tool in a pipeline
+and don't know how to start? This template project is exactly for you! All what
+you need to do is:
 
 - [Create a new repository from this template project](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template).
 - Follow the [instructions](https://github.com/fabasoad/typescript-setup-action/wiki/How-to-use).
 - Done :sunglasses:
 
-This template project is based on [fabasoad/typescript-action](https://github.com/fabasoad/typescript-action) template repository but with additional logic related to "setup" functionality. What does it mean actually? It means that you can configure GitHub Action that will setup some tool in a pipeline. Good examples are [setup-wren-action](https://github.com/fabasoad/setup-wren-action), [setup-kitten-action](https://github.com/fabasoad/setup-kitten-action), [setup-mint-action](https://github.com/fabasoad/setup-mint-action) and many others that you can find [here](https://github.com/marketplace?type=actions&query=fabasoad+Setup).
+This template project is based on [fabasoad/typescript-action](https://github.com/fabasoad/typescript-action)
+template repository but with additional logic related to "setup" functionality.
+What does it mean actually? It means that you can configure GitHub Action that
+will set up some tool in a pipeline. Good examples are [setup-wren-action](https://github.com/fabasoad/setup-wren-action),
+[setup-kitten-action](https://github.com/fabasoad/setup-kitten-action), [setup-mint-action](https://github.com/fabasoad/setup-mint-action)
+and many others that you can find [here](https://github.com/marketplace?type=actions&query=fabasoad+Setup).
 
 ## Wiki
 

@@ -19,17 +19,17 @@ repos:
         stages: ["push"]
   # Security
   - repo: https://github.com/Yelp/detect-secrets
-    rev: v1.3.0
+    rev: v1.4.0
     hooks:
       - id: detect-secrets
         stages: ["commit", "push"]
   - repo: https://github.com/zricethezav/gitleaks
-    rev: v8.13.0
+    rev: v8.15.1
     hooks:
       - id: gitleaks
         stages: ["commit", "push"]
   - repo: https://github.com/fabasoad/pre-commit-snyk
-    rev: v0.1.0
+    rev: v0.2.0
     hooks:
       - id: snyk-test
         stages: ["push"]
@@ -52,10 +52,9 @@ repos:
     rev: v1.28.0
     hooks:
       - id: yamllint
-        args: ["-c", ".yamllint.yml"]
   # Other
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.3.0
+    rev: v4.4.0
     hooks:
       - id: check-merge-conflict
       - id: check-json

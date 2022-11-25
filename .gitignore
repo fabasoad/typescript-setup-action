@@ -1,8 +1,8 @@
-.idea
 .DS_Store
-.vscode/*
-!.vscode/settings.json
 .env
+.envrc
+.idea
+.vscode
 coverage
 node_modules
 yarn-error.log

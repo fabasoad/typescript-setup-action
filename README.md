@@ -1,5 +1,12 @@
 # Template for TypeScript Setup GitHub Action
 
+> :warning: This project is deprecated and no longer maintained starting from
+> 2022/12/06. Initially it was created as the bootstrap for the "Setup &lt;tool&gt;"
+> action and 'composite' action didn't exist at that time. But with the release
+> of 'composite' action it became even easier to write "Setup &lt;tool&gt;" GitHub
+> actions and maintaining TypeScript project for this purpose is just a waste and
+> toil. So, please use 'composite' action instead.
+
 ![GitHub release](https://img.shields.io/github/v/release/fabasoad/typescript-setup-action?include_prereleases)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/fabasoad/typescript-setup-action/main.svg)](https://results.pre-commit.ci/latest/github/fabasoad/typescript-setup-action/main)
 

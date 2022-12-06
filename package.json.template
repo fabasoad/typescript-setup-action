@@ -1,6 +1,6 @@
 {
   "name": "${REPO_NAME}",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "${REPO_TITLE} GitHub Action",
   "main": "dist/index.js",
   "repository": {
@@ -10,7 +10,7 @@
   "scripts": {
     "build": "ncc build -m src/index.ts",
     "lint": "eslint --ext ts src",
-    "postinstall": "pre-commit install --hook-type pre-commit && pre-commit install --hook-type pre-push",
+    "postinstall": "pre-commit install",
     "test": "jest --config=jest.config.json --coverage"
   },
   "keywords": [

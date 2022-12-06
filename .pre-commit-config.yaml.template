@@ -1,6 +1,8 @@
 ---
+default_install_hook_types: ["pre-commit", "pre-push"]
 default_stages: ["commit"]
 exclude: ^(.gitleaks\.toml|dist/.*\.js)$
+minimum_pre_commit_version: 2.18.0
 repos:
   - repo: local
     hooks:
@@ -24,7 +26,7 @@ repos:
       - id: detect-secrets
         stages: ["commit", "push"]
   - repo: https://github.com/zricethezav/gitleaks
-    rev: v8.15.1
+    rev: v8.15.2
     hooks:
       - id: gitleaks
         stages: ["commit", "push"]
